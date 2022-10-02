@@ -226,7 +226,8 @@
         }
 
         .photographer-details,
-        .client-details {
+        .client-details,
+        .photographer-filters {
             opacity: 0;
             max-height: 0;
         }
@@ -331,8 +332,13 @@
             <p>до</p>
             <input type="text" name="hourly-pay-to" id="hourly-pay-to-inp"> 
          </div>
-         
-         <h3>разовая оплата</h3>
+         <div class="filter-container">
+             <h3>разовая оплата</h3>
+             <p>от</p>
+             <input type="text" name="pay-from" id="pay-from-inp">
+             <p>до</p>
+             <input type="text" name="pay-to" id="pay-to-inp">
+         </div>
     </section>
 
     <section class="client-details">
@@ -360,18 +366,31 @@
     const infoTextarea = document.querySelector('.self-info-text');
     const uploadedImages = document.querySelector('#image-input');
 
-    function proceedToFilters() {
+    function enableFilterBtn() {
         if ((infoTextarea.text != '') && (uploadedImages.files.length > 0)) {
             Telegram.WebApp.MainButton.setParams({"color": "#143F6B"});
             Telegram.WebApp.MainButton.enable();
         }
     }
 
-    infoTextarea.addEventListener('input', proceedToFilters);
+    infoTextarea.addEventListener('input', enableFilterBtn);
+    uploadedImages.addEventListener('change', enableFilterBtn);
 
     Telegram.WebApp.onEvent('themeChanged', function() {
         document.querySelector('#themeData').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
     });
+
+    function proceedToFilters() {
+        const detailsContainer = document.querySelector('.photographer-details');
+        const filtersContainer = document.querySelector('.photographer-filters');
+
+        filtersContainer.style["opacity"] = 1;
+        filtersContainer.style["max-height"] = "500px";
+
+        detailsContainer.style["opacity"] = 0;
+        detailsContainer.style["max-height"] = 0;
+        detailsContainer.style["padding"] = 0;
+    }
 
     function showPhotographerDetails() {
         const detailsContainer = document.querySelector('.photographer-details');
@@ -385,6 +404,7 @@
         buttonsContainer.style["padding"] = 0;
 
         Telegram.WebApp.MainButton.setText('к фильтрам').setParams({"color": "#E0FFFF"}).show().disable();
+        Telegram.WebApp.onEvent('mainButtonClicked', proceedToFilters);
     }
 
     function toggleMainButton(el) {
