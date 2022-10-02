@@ -119,6 +119,10 @@
             resize: none;
         }
 
+        input {
+            z-index: 1;
+        }
+
         label {
            display: flex;
            justify-content: center;
@@ -248,8 +252,8 @@
             justify-content: center;
             align-items: center;
             font-size: 150%;
-            width: 100px;
-            height: 100px;
+            max-width: 100px;
+            max-height: 100px;
             border: solid 1px black;
             border-radius: 5px;
             object-fit: cover;
@@ -334,16 +338,16 @@
         <h3>за час работы</h3>
         <div class="filter-container"> 
             <p>от</p>
-            <input class="filter-input" type="text" name="hourly-pay-from" id="hourly-pay-from-inp"/>
+            <input class="filter-input" type="text" oninput="convertToInt(this)" name="hourly-pay-from" id="hourly-pay-from-inp"/>
             <p>до</p>
-            <input class="filter-input" type="text" name="hourly-pay-to" id="hourly-pay-to-inp"/> 
+            <input class="filter-input" type="text" oninput="convertToInt(this)" name="hourly-pay-to" id="hourly-pay-to-inp"/> 
         </div>
         <h3>разовая оплата</h3>
         <div class="filter-container">
             <p>от</p>
-            <input class="filter-input" type="text" name="pay-from" id="pay-from-inp"/>
+            <input class="filter-input" type="text" oninput="convertToInt(this)" name="pay-from" id="pay-from-inp"/>
             <p>до</p>
-            <input class="filter-input" type="text" name="pay-to" id="pay-to-inp"/>
+            <input class="filter-input" type="text" oninput="convertToInt(this)" name="pay-to" id="pay-to-inp"/>
         </div>
     </section>
 
@@ -412,6 +416,10 @@
         Telegram.WebApp.onEvent('mainButtonClicked', proceedToFilters);
     }
 
+    function convertToInt(elem) {
+        elem.value = elem.value.replace(/[^0-9]/g, ''); 
+        elem.value = elem.value.replace(/(\..*)\./g, '$1');
+    }
 </script>
 </body>
 </html>
