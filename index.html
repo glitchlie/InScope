@@ -27,7 +27,8 @@
             color: var(--tg-theme-text-color, #222222);
             font-size: 16px;
             margin: 0;
-            padding: 0;
+            /*padding: 0;*/
+            padding: 15px;
             color-scheme: var(--tg-color-scheme);
         }
 
@@ -93,7 +94,8 @@
         }
 
         section {
-            padding: 15px 15px 65px;
+            /*padding: 15px 15px 65px;*/
+            padding: 0;
             text-align: center;
             transition-duration: 0.5s;
         }
@@ -263,7 +265,7 @@
         .filter-container {
             display: flex;
             flex-direction: row;
-            height: 100px;
+            height: 50px;
         }
 
         .filter-container * {
@@ -275,6 +277,10 @@
             color: black;
             font-size: 18px;
             margin-right: 5px;
+        }
+
+        .filter-input {
+            max-width: 70px;
         }
 
     </style>
@@ -325,20 +331,20 @@
     </section>
 
     <section class="photographer-filters">
-         <div class="filter-container">
-            <h3>за час работы</h3>
+        <h3>за час работы</h3>
+        <div class="filter-container"> 
             <p>от</p>
-            <input type="text" name="hourly-pay-from" id="hourly-pay-from-inp">
+            <input class="filter-input" type="text" name="hourly-pay-from" id="hourly-pay-from-inp"/>
             <p>до</p>
-            <input type="text" name="hourly-pay-to" id="hourly-pay-to-inp"> 
-         </div>
-         <div class="filter-container">
-             <h3>разовая оплата</h3>
-             <p>от</p>
-             <input type="text" name="pay-from" id="pay-from-inp">
-             <p>до</p>
-             <input type="text" name="pay-to" id="pay-to-inp">
-         </div>
+            <input class="filter-input" type="text" name="hourly-pay-to" id="hourly-pay-to-inp"/> 
+        </div>
+        <h3>разовая оплата</h3>
+        <div class="filter-container">
+            <p>от</p>
+            <input class="filter-input" type="text" name="pay-from" id="pay-from-inp"/>
+            <p>до</p>
+            <input class="filter-input" type="text" name="pay-to" id="pay-to-inp"/>
+        </div>
     </section>
 
     <section class="client-details">
