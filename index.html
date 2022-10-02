@@ -352,13 +352,13 @@
     const initData = Telegram.WebApp.initData || '';
     const initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
 
-    document.querySelector('#greeting').innerHTML = `Hi, ${initDataUnsafe.user.first_name}!`;
-    document.querySelector('#initData').innerHTML = JSON.stringify(initData, null, 2);
-    document.querySelector('#initDataUnsafe').innerHTML = JSON.stringify(initDataUnsafe, null, 2);
-    document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
+    //document.querySelector('#greeting').innerHTML = `Hi, ${initDataUnsafe.user.first_name}!`;
+    //document.querySelector('#initData').innerHTML = JSON.stringify(initData, null, 2);
+    //document.querySelector('#initDataUnsafe').innerHTML = JSON.stringify(initDataUnsafe, null, 2);
+    //document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
 
-    document.querySelector('textarea').addEventListener('input', function (event) {
-      Telegram.WebApp.MainButton.show();
+    document.querySelector('textarea').addEventListener('input', function () {
+      Telegram.WebApp.MainButton.enable();
     });
 
 
