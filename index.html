@@ -358,14 +358,8 @@
     //document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
 
     document.querySelector('textarea').addEventListener('input', function () {
-      Telegram.WebApp.MainButton.enable();
+      Telegram.WebApp.MainButton.setText('к фильтрам').show();
     });
-
-
-    Telegram.WebApp.MainButton
-        .setText('CLOSE WEBVIEW')
-        .show()
-        .onClick(function(){ webviewClose(); });
 
     Telegram.WebApp.onEvent('themeChanged', function() {
         document.querySelector('#themeData').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
