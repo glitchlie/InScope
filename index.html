@@ -95,6 +95,7 @@
         section {
             padding: 15px 15px 65px;
             text-align: center;
+            transition-duration: 0.5s;
         }
 
         p {
@@ -113,6 +114,26 @@
             width: 100%;
             box-sizing: border-box;
             padding: 7px;
+            resize: none;
+        }
+
+        label {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           font-size: 150%;
+           cursor: pointer;
+           width: 100px;
+           height: 100px;
+           border: solid 1px black;
+           border-radius: 5px;
+           object-fit: cover;
+        }
+
+        #upload-photo {
+           opacity: 0;
+           position: absolute;
+           z-index: -1;
         }
 
         pre {
@@ -203,27 +224,85 @@
         small {
             font-size: 12px;
         }
+
+        .photographer-details,
+        .client-details {
+            opacity: 0;
+            max-height: 0;
+        }
+
+        .role-selection {
+            overflow: hidden;
+        }
+
+        #image-input {
+            opacity: 0;
+            height: 0;
+        }
+
+        .image-preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 150%;
+            width: 100px;
+            height: 100px;
+            border: solid 1px black;
+            border-radius: 5px;
+            object-fit: cover;
+            margin-left: 5px;
+        }
+
+        .preview-img-container {
+            display: flex;
+            flex-direction: row;
+        }
+
     </style>
 </head>
 
 <body>
 
 <section>
-    <h1 id="greeting"></h1>
 
     <section class="role-selection">
-    	<div id="buttons">
-        	<button class="image-btn-photo" onclick="webviewExpand();">я фотограф</button>
-        	<button class="image-btn-studio" onclick="webviewExpand();">ищу фотографа</button>
+    	<div id="role-buttons">
+        	<button onclick="showPhotographerDetails()" class="image-btn-photo" onclick="webviewExpand();">я фотограф</button>
+        	<button onclick="showPhotographerDetails()" class="image-btn-studio" onclick="webviewExpand();">ищу фотографа</button>
     	</div>
     </section>
+
     <section class="photographer-details">
-    	<div id="details-container">
+    	<div class="details-container">
         	<h3>о себе</h3>
         	<textarea></textarea>
         	<h3>примеры фото</h3>
-        	<input type="file">
+            <input type="file" accept="image/*" id="image-input" onchange="loadFile(event)">
+            <div class="preview-img-container">
+                <label for="image-input">+</label>
+                <img class="image-preview" id="output"/>
+                <img class="image-preview" id="output"/>
+                <img class="image-preview" id="output"/>
+            </div>
+            <script>
+              var loadFile = function(event) {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function() {
+                  URL.revokeObjectURL(output.src) // free memory
+                }
+              };
+            </script>
     	</div>
+    </section>
+
+    <section class="client-details">
+        <div class="details-container">
+            <h3>задание</h3>
+            <textarea></textarea>
+            <h3>примеры фото</h3>
+            <input type="file">
+        </div>
     </section>
     
 </section>
@@ -247,6 +326,18 @@
     Telegram.WebApp.onEvent('themeChanged', function() {
         document.querySelector('#themeData').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
     });
+
+    function showPhotographerDetails() {
+        const detailsContainer = document.querySelector('.photographer-details');
+        const buttonsContainer = document.querySelector('.role-selection');
+
+        detailsContainer.style["opacity"] = 1;
+        detailsContainer.style["max-height"] = "500px";
+
+        buttonsContainer.style["opacity"] = 0;
+        buttonsContainer.style["max-height"] = 0;
+        buttonsContainer.style["padding"] = 0;
+    }
 
     function toggleMainButton(el) {
         const mainButton = Telegram.WebApp.MainButton;
@@ -307,6 +398,7 @@
         }
         return false;
     }
+
 </script>
 </body>
 </html>
