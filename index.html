@@ -399,6 +399,9 @@
 
         detailsContainer.style["opacity"] = 0;
         detailsContainer.style["max-height"] = 0;
+
+        Telegram.WebApp.MainButton.setText('опубликовать');
+        Telegram.WebApp.onEvent('mainButtonClicked', sendPhotographerDetails);
     }
 
     function showPhotographerDetails() {
@@ -420,6 +423,11 @@
         elem.value = elem.value.replace(/[^0-9]/g, ''); 
         elem.value = elem.value.replace(/(\..*)\./g, '$1');
     }
+
+    function sendPhotographerDetails() {
+        console.log("test");
+    }
+
 </script>
 </body>
 </html>
