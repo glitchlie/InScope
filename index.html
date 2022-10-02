@@ -251,11 +251,29 @@
             border-radius: 5px;
             object-fit: cover;
             margin-left: 5px;
+            visibility: hidden;
         }
 
         .preview-img-container {
             display: flex;
             flex-direction: row;
+        }
+
+        .filter-container {
+            display: flex;
+            flex-direction: row;
+            height: 100px;
+        }
+
+        .filter-container * {
+            text-align: center;
+            vertical-align: middle;
+            margin: auto 0;
+            font-family: 'Montserrat Alternates', sans-serif;
+            font-weight: 500;
+            color: black;
+            font-size: 18px;
+            margin-right: 5px;
         }
 
     </style>
@@ -277,23 +295,44 @@
         	<h3>о себе</h3>
         	<textarea></textarea>
         	<h3>примеры фото</h3>
-            <input type="file" accept="image/*" id="image-input" onchange="loadFile(event)">
+            <input type="file" accept="image/*" id="image-input" onchange="loadFile(event)" multiple>
             <div class="preview-img-container">
                 <label for="image-input">+</label>
-                <img class="image-preview" id="output"/>
-                <img class="image-preview" id="output"/>
-                <img class="image-preview" id="output"/>
+                <img class="image-preview"/>
+                <img class="image-preview"/>
+                <img class="image-preview"/>
+                <img class="image-preview"/>
+                <img class="image-preview"/>
             </div>
             <script>
               var loadFile = function(event) {
-                var output = document.getElementById('output');
-                output.src = URL.createObjectURL(event.target.files[0]);
-                output.onload = function() {
-                  URL.revokeObjectURL(output.src) // free memory
+                var previews = document.getElementsByClassName('image-preview');
+                console.log(previews);
+
+                let filesNum = (event.target.files.length > 5) ? 5 : event.target.files.length
+
+                for (var i = 0; i < filesNum; i++) {
+                    previews[i].src = URL.createObjectURL(event.target.files[i]);
+                    previews[i].onload = function() {
+                        URL.revokeObjectURL(previews[i].src)
+                    }
+                    previews[i].style["visibility"] = "visible";
                 }
               };
             </script>
     	</div>
+    </section>
+
+    <section class="photographer-filters">
+         <div class="filter-container">
+            <h3>за час работы</h3>
+            <p>от</p>
+            <input type="text" name="hourly-pay-from" id="hourly-pay-from-inp">
+            <p>до</p>
+            <input type="text" name="hourly-pay-to" id="hourly-pay-to-inp"> 
+         </div>
+         
+         <h3>разовая оплата</h3>
     </section>
 
     <section class="client-details">
@@ -317,6 +356,11 @@
     document.querySelector('#initData').innerHTML = JSON.stringify(initData, null, 2);
     document.querySelector('#initDataUnsafe').innerHTML = JSON.stringify(initDataUnsafe, null, 2);
     document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
+
+    document.querySelector('textarea').addEventListener('input', function (event) {
+      Telegram.WebApp.MainButton.show();
+    });
+
 
     Telegram.WebApp.MainButton
         .setText('CLOSE WEBVIEW')
@@ -356,47 +400,6 @@
 
     function webviewClose() {
         Telegram.WebApp.close();
-    }
-
-    function sendTime(spam) {
-        const repeat = spam ? 10 : 1;
-        for (let i = 0; i < repeat; i++) {
-            Telegram.WebApp.sendData(new Date().toString());
-        }
-    }
-
-    function requestLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                document.querySelector('#locationData').innerHTML = '(' + position.coords.latitude + ', ' + position.coords.longitude + ')';
-            });
-        } else {
-            document.querySelector('#locationData').innerHTML = '(Geolocation is not supported in this browser)';
-        }
-
-        return false;
-    }
-
-    function requestVideo() {
-        if (navigator.mediaDevices) {
-            navigator.mediaDevices.getUserMedia({ audio: false, video: true }).then(function(stream) {
-                document.querySelector('#videoData').innerHTML = '(Access granted)';
-            });
-        } else {
-            document.querySelector('#videoData').innerHTML = '(Media devices is not supported in this browser)';
-        }
-        return false;
-    }
-
-    function requestAudio() {
-        if (navigator.mediaDevices) {
-            navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function(stream) {
-                document.querySelector('#audioData').innerHTML = '(Access granted)';
-            });
-        } else {
-            document.querySelector('#audioData').innerHTML = '(Media devices is not supported in this browser)';
-        }
-        return false;
     }
 
 </script>
