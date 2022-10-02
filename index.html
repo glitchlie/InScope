@@ -293,7 +293,7 @@
     <section class="photographer-details">
     	<div class="details-container">
         	<h3>о себе</h3>
-        	<textarea></textarea>
+        	<textarea class="self-info-text"></textarea>
         	<h3>примеры фото</h3>
             <input type="file" accept="image/*" id="image-input" onchange="loadFile(event)" multiple>
             <div class="preview-img-container">
@@ -309,7 +309,7 @@
                 var previews = document.getElementsByClassName('image-preview');
                 console.log(previews);
 
-                let filesNum = (event.target.files.length > 5) ? 5 : event.target.files.length
+                let filesNum = (event.target.files.length > 5) ? 5 : event.target.files.length;
 
                 for (var i = 0; i < filesNum; i++) {
                     previews[i].src = URL.createObjectURL(event.target.files[i]);
@@ -357,10 +357,17 @@
     //document.querySelector('#initDataUnsafe').innerHTML = JSON.stringify(initDataUnsafe, null, 2);
     //document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
 
-    document.querySelector('textarea').addEventListener('input', function () {
-      Telegram.WebApp.MainButton.setParams({"color": "#143F6B"});
-      Telegram.WebApp.MainButton.enable();
-    });
+    const infoTextarea = document.querySelector('.self-info-text');
+    const uploadedImages = document.querySelector('#image-input');
+
+    function proceedToFilters() {
+        if (infoTextarea.text != '') && (uploadedImages.files.length > 0) {
+            Telegram.WebApp.MainButton.setParams({"color": "#143F6B"});
+            Telegram.WebApp.MainButton.enable();
+        }
+    }
+
+    infoTextarea.addEventListener('input', proceedToFilters);
 
     Telegram.WebApp.onEvent('themeChanged', function() {
         document.querySelector('#themeData').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
