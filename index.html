@@ -358,7 +358,8 @@
     //document.querySelector('#themeData').html(JSON.stringify(Telegram.WebApp.themeParams, null, 2));
 
     document.querySelector('textarea').addEventListener('input', function () {
-      Telegram.WebApp.MainButton.setText('к фильтрам').show();
+      Telegram.WebApp.MainButton.setParams({"color": "#143F6B"});
+      Telegram.WebApp.MainButton.enable();
     });
 
     Telegram.WebApp.onEvent('themeChanged', function() {
@@ -375,6 +376,8 @@
         buttonsContainer.style["opacity"] = 0;
         buttonsContainer.style["max-height"] = 0;
         buttonsContainer.style["padding"] = 0;
+
+        Telegram.WebApp.MainButton.setText('к фильтрам').setParams({"color": "#E0FFFF"}).show().disable();
     }
 
     function toggleMainButton(el) {
