@@ -318,7 +318,6 @@
             <script>
               var loadFile = function(event) {
                 var previews = document.getElementsByClassName('image-preview');
-                console.log(previews);
 
                 let filesNum = (event.target.files.length > 5) ? 5 : event.target.files.length;
 
@@ -425,7 +424,7 @@
     }
 
     function sendPhotographerDetails() {
-        console.log("test");
+        Telegram.WebApp.sendData("test");
     }
 
 </script>
