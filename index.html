@@ -361,7 +361,7 @@
     const uploadedImages = document.querySelector('#image-input');
 
     function proceedToFilters() {
-        if (infoTextarea.text != '') && (uploadedImages.files.length > 0) {
+        if ((infoTextarea.text != '') && (uploadedImages.files.length > 0)) {
             Telegram.WebApp.MainButton.setParams({"color": "#143F6B"});
             Telegram.WebApp.MainButton.enable();
         }
